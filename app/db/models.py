@@ -1,4 +1,5 @@
 from sqlalchemy import ARRAY, Column, Integer, String
+from sqlalchemy.types import Date
 from sqlalchemy.orm import relationship
 from .main import Base
 
@@ -29,6 +30,7 @@ class Image(Base):
     link = Column(String, nullable=False)
     caption = Column(String)
     tag = Column(ARRAY(String))
+    upload_date = Column(Date)
     likes = Column(Integer)
 
     user_id = Column(Integer, ForeignKey("user.id"))
