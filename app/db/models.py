@@ -15,6 +15,7 @@ class User(Base):
     bio = Column(String)
     username = Column(String, unique=True, nullable=False)
     social_media = Column(String)
+    hashed_password = Column(String)
 
     images = relationship("Image", back_populates="user")
 
