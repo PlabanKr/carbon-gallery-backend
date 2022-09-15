@@ -1,6 +1,6 @@
 from datetime import date
 from pydantic import BaseModel
-from types import Union
+from typing import Union
 
 
 class ImageBase(BaseModel):
