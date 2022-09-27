@@ -51,4 +51,4 @@ async def get_images_by_user_id(user_id: int, db: Session = Depends(get_db)):
 # Post Routes
 @router.post("/new", response_model=schemas.Image)
 async def create_image(image: schemas.ImageCreate, db: Session = Depends(get_db)):
-    return crud.create_image(db=db, image=image, user_id=image.user_id)
+    return crud.create_image(db=db, image=image, usr_id=image.user_id)
