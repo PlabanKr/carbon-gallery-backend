@@ -1,7 +1,10 @@
 from sqlalchemy.orm import Session
 
 from . import models, schemas
+from ..auth.auth import AuthHandler
 
+# Authentication
+auth_handler = AuthHandler()
 
 # user crud functions
 def get_user_by_id(db: Session, user_id: int):
@@ -21,7 +24,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.password + 'notreallyhashed'
+    hashed_password = auth_handler.get_password_hash(user.password)
     # shortcut code -> **user.dict()
     db_user = models.User(
         name = user.name,
@@ -29,7 +32,7 @@ def create_user(db: Session, user: schemas.UserCreate):
         bio = user.bio,
         username = user.username,
         social_media = user.social_media,
-        hashed_password = fake_hashed_password
+        hashed_password = hashed_password
     )
     db.add(db_user)
     db.commit()
@@ -54,8 +57,16 @@ def get_images(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Image).offset(skip).limit(limit).all()
 
 
-def create_image(db: Session, image: schemas.ImageCreate, user_id: int):
-    db_image = models.Image(**image.dict(), user_id = user_id)
+def create_image(db: Session, image: schemas.ImageCreate, usr_id: int):
+    db_image = models.Image(
+        title = image.title,
+        link = image.link,
+        caption = image.caption,
+        tag = image.tag,
+        upload_date = image.upload_date,
+        likes = image.likes,
+        user_id = usr_id
+    )
     db.add(db_image)
     db.commit()
     db.refresh(db_image)
