@@ -19,7 +19,7 @@ router = APIRouter(
 
 # Get Routes
 @router.get("/all", response_model=list[schemas.Image])
-async def get_all_images(skip: int = 0, limit: int = 0, db: Session = Depends(get_db)):
+async def get_all_images(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     images = crud.get_images(db, skip=skip, limit=limit)
     return images
 
