@@ -18,6 +18,7 @@ class ImageCreate(ImageBase):
 
 class Image(ImageBase):
     id: int
+    link: str
 
     class Config:
         orm_mode = True
