@@ -39,6 +39,13 @@ async def get_images_by_title(img_title: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Image not found")
     return db_image
 
+@router.get("/match/{search_term}", response_model=list[schemas.Image])
+async def get_images_by_search_term(search_term: str, db: Session = Depends(get_db)):
+    db_image = crud.get_images_by_matching_pattern(db=db, pattern=search_term)
+    if db_image is None:
+        raise HTTPException(status_code=404, detail="Image not found")
+    return db_image
+
 
 @router.get("/user/{user_id}", response_model=list[schemas.Image])
 async def get_images_by_user_id(user_id: int, db: Session = Depends(get_db)):

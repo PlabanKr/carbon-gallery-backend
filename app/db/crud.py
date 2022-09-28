@@ -52,6 +52,9 @@ def get_images_by_user_id(db: Session, user_id: int, limit: int = 100):
 def get_images_by_title(db: Session, image_title: str, limit: int = 100):
     return db.query(models.Image).filter(models.Image.title == image_title).limit(limit).all()
 
+def get_images_by_matching_pattern(db: Session, pattern: str, limit: int = 100):
+    return db.query(models.Image).filter(models.Image.title.match(pattern)).limit(limit).all()
+
 
 def get_images(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Image).offset(skip).limit(limit).all()
