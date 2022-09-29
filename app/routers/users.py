@@ -71,3 +71,12 @@ async def login(auth_details: AuthDetails, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid password")
     token = auth_handler.encode_token(user.username)
     return { "token": token }
+
+# Delete Route
+@router.delete("/delete/{username}")
+async def delete_user_by_username(username: str, db: Session = Depends(get_db)):
+    db_user = crud.get_user_by_username(db=db, username=username)
+    if db_user:
+        return crud.delete_user_by_username(db=db, username=username)
+    else:
+        raise HTTPException(status_code=404, detail="User not found")

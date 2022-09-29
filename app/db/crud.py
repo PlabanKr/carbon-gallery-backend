@@ -39,6 +39,11 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.refresh(db_user)
     return db_user
 
+def delete_user_by_username(db: Session, username: str):
+    db.query(models.User).filter(models.User.username == username).delete()
+    db.commit()
+    return {"message":"User deleted successfully"}
+
 
 # image crud functions
 def get_image_by_id(db: Session, image_id: int):
